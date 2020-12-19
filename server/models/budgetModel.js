@@ -1,35 +1,33 @@
 const mongoose = require('mongoose');
 
-const budgetSchema = mongoose.Schema(
-	{
-		title: {
-			type: String,
-			required: true,
-			trim: true,
-			unique: true,
-		},
-		budget: {
-			type: Number,
-			required: true,
-		},
-		color: {
-			type: String,
-			required: true,
-			validate: [isValid, 'Please enter color in Hexadecimal'],
-		},
-		username: {
-			type: String,
-			required: true,
-			trim: true,
-		},
-	},
-	{ collection: 'budget' }
-);
 
-function isValid(s) {
-	return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(s);
-}
+const budgetSchema = mongoose.Schema({
+    
+    title :{
+        type: String,
+        required : true,
+        trim: true,
+    },
+    budget :{
+        type : Number,
+        required : true,        
+    },
+    maxbudget :{
+        type : Number,
+        required : true,        
+    },
+    color:{
+        type: String,
+        required: true,
+        match: [/^#(?:[0-9a-fA-F]{3}){1,2}$/, 'Invalid Color']
+    },
+    username:{
+        type:String,
+        required:true,
+        trim:true
+    }
+},{collection : 'budget'})
 
-const budgetModel = mongoose.model('budget', budgetSchema);
+const budgetModel = mongoose.model('budget',budgetSchema);
 
 module.exports = budgetModel;
